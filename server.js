@@ -6,16 +6,19 @@ const bodyParser = require('body-parser');
 const PORT = 3000;
 let id;
 
-app.use(bodyParser);
+app.use(bodyParser.json());
 
 // create a message
 app.post('/messages', (req, res) => {
-  res.send('Post a message to the DB here');
+  const newMessage = new Message(req.body);
+  newMessage.save()
+    .then((results) => res.status(200).send(results))
 })
 
 // get all messages
 app.get('/messages', (req, res) => {
-  res.send('Retrieve messages here');
+
+
 })
 
 // get one message
