@@ -1,29 +1,21 @@
-//this code includes mongoose in our project and creates connection to locally running mongodb database
-const mongoose = require('mongoose');
-module.exports = mongoose.connect('mongodb://localhost:27017/messages', {useNewUrlParser: true, useUnifiedTopology: true});
-const db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'connection: error'));
-db.once('open', () => {
-  console.log('messages db up and running');
-})
+const mongoose = require('mongoose')
 
-//build schema here - message table holds message
 const MessageSchema = new mongoose.Schema({
   id: Number,
-  username: String,
+  name: String,
   content: String
 })
-
 //Message Model -- exported from file
 const Message = mongoose.model('Message', MessageSchema);
 
-const sampleMessage = new Message({
-  username: 'daniel',
-  content: 'This is where the text goes'
-})
+//Need a function that takes in a message object, and saves the object in the DB
+const storeMessage = (message) => {
+  let instance = new Message(message);
+  instance.save(instance);
+  return instance;
+}
 
-console.log(sampleMessage);
+console.log(storeMessage({ name: 'iub', content: 'sdiunb' }));
 
-
-module.exports = Message;
+module.exports = Message
