@@ -4,7 +4,6 @@ const db = require('./db/config')
 const Message = require('./db/Message');
 const bodyParser = require('body-parser');
 const PORT = 3000;
-let id;
 
 app.use(bodyParser.json());
 
@@ -17,26 +16,33 @@ app.post('/messages', (req, res) => {
 
 // get all messages
 app.get('/messages', (req, res) => {
-  Message.find((err, messages) => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).send(messages);
-  })
+  Message.find()
+  .then((messages) => res.send(messages))
+  .catch(err => err)
 })
 
 // get one message
-app.get(`/messages/${id}`, (req, res) => {
-  //findbyID
-  res.send('Return single message from here')
+app.get(`/messages/:id`, (req, res) => {
+  const id = req.params.id;
+  Message.findById(id)
+    .then((message) => res.status(200).send(message))
+    .catch(err => err);
 })
 
 // update a message
-app.put(`/messages/${id}`, (req, res) => {
+app.put(`/messages/:id`, (req, res) => {
   res.send('Updating existing message needs to happen here')
 })
 
 // delete a message
-app.delete(`/messages${id}`, (req, res) => {
+app.delete(`/messages/:id`, (req, res) => {
   res.send('Delete request made here')
+})
+
+// delete all messages
+app.delete(`/messages/deleteAll`, (req, res) => {
+  Message.deleteMany()
+    .then()
 })
 
 
