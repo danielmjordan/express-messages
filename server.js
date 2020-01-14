@@ -17,12 +17,15 @@ app.post('/messages', (req, res) => {
 
 // get all messages
 app.get('/messages', (req, res) => {
-
-
+  Message.find((err, messages) => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).send(messages);
+  })
 })
 
 // get one message
 app.get(`/messages/${id}`, (req, res) => {
+  //findbyID
   res.send('Return single message from here')
 })
 
