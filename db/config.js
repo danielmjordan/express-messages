@@ -1,6 +1,6 @@
 //this code includes mongoose in our project and creates connection to locally running mongodb database
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/messages', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost:27017/messages', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 const db = mongoose.connection;
 

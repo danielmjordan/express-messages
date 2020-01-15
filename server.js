@@ -22,29 +22,29 @@ app.get('/messages', (req, res) => {
 })
 
 // get one message
-app.get(`/messages/:id`, (req, res) => {
+app.get('/messages/:id', (req, res) => {
   const id = req.params.id;
   Message.findById(id)
     .then((message) => res.status(200).send(message))
     .catch(err => err);
 })
 
-// update a message
-app.put(`/messages/:id`, (req, res) => {
-  res.send('Updating existing message needs to happen here')
+// update an existing message
+app.put('/messages/:id', (req, res) => {
+  const id = req.params.id;
+  const updatedMessage = req.body;
+  Message.findByIdAndUpdate(id, updatedMessage)
+    .then(() => res.status(200).send('updated message'))
+    .catch(err => err);
 })
 
 // delete a message
-app.delete(`/messages/:id`, (req, res) => {
-  res.send('Delete request made here')
+app.delete('/messages/:id', (req, res) => {
+  const id = req.params.id;
+  Message.findByIdAndDelete(id)
+    .then((message) => res.status(200).send(message))
+    .catch(err => res.status(404).send(err));
 })
-
-// delete all messages
-app.delete(`/messages/deleteAll`, (req, res) => {
-  Message.deleteMany()
-    .then()
-})
-
 
 // catch all route (I think?)
 app.use((req, res, next) => {
